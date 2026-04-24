@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="fr" data-theme="dark">
 <head>
@@ -414,7 +413,6 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 
 /* MODALS */
 .mo{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(4px);padding:20px}
-./* APRÈS */
 .modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rlg);width:100%;max-width:480px;box-shadow:0 24px 80px rgba(0,0,0,.6);animation:mIn .2s ease;display:flex;flex-direction:column;max-height:90vh}
 .modal.wide{max-width:660px}
 @keyframes mIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
@@ -422,7 +420,6 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .mhdr h3{font-size:1rem;font-weight:700}
 .mcls{color:var(--text-muted);font-size:1.1rem;transition:color var(--tr)}
 .mcls:hover{color:var(--text)}
-./* APRÈS */
 .mbody{padding:24px;overflow-y:auto;flex:1}
 .mftr{display:flex;justify-content:flex-end;gap:10px;padding:16px 24px;border-top:1px solid var(--border)}
 
@@ -916,7 +913,7 @@ const INST = {
   async getMerchant(id) {
     if (!this.ready()) return null;
     try {
-      const result = await inst.queryOnce({merchants: {} });
+      const result = await inst.queryOnce({ merchants: {} });
       return result.data?.merchants?.[id] || null;
     } catch(e) { console.warn('[INST] getMerchant:', e); return null; }
   },
@@ -924,7 +921,7 @@ const INST = {
   async getMerchantByPhone(tel) {
     if (!this.ready()) return null;
     try {
-      const result = await inst.queryOnce({merchants: {} });
+      const result = await inst.queryOnce({ merchants: {} });
       const merchants = Object.values(result.data?.merchants || {});
       const found = merchants.find(m => m.telephone === tel);
       return found || null;
@@ -935,7 +932,7 @@ const INST = {
   
   async getAllMerchants() {
     try {
-      const result = await inst.queryOnce({merchants: {} });
+      const result = await inst.queryOnce({ merchants: {} });
       return Object.values(result.data?.merchants || {});
     } catch(e) { console.warn('[INST] getAllMerchants:', e); return []; }
   },
@@ -944,7 +941,7 @@ const INST = {
   async getConfig(merchantId) {
     if (!this.ready()) return null;
     try {
-      const result = await inst.queryOnce({configs: {} });
+      const result = await inst.queryOnce({ configs: {} });
       const configs = Object.values(result.data?.configs || {});
       return configs.find(c => c.merchant_id === merchantId) || null;
     } catch(e) { return null; }
@@ -959,7 +956,7 @@ const INST = {
   // --- PRODUCTS ---
   async getProducts(merchantId) {
     try {
-      const result = await inst.queryOnce({products: {} });
+      const result = await inst.queryOnce({ products: {} });
       const products = Object.values(result.data?.products || {});
       return products.filter(p => p.merchant_id === merchantId);
     } catch(e) { return []; }
@@ -971,7 +968,7 @@ const INST = {
   // --- CLIENTS ---
   async getClients(merchantId) {
     try {
-      const result =await inst.queryOnce({ clients: {} });
+      const result = await inst.queryOnce({ clients: {} });
       const clients = Object.values(result.data?.clients || {});
       return clients.filter(c => c.merchant_id === merchantId);
     } catch(e) { return []; }
@@ -1799,9 +1796,9 @@ async function _fbLogin({ telephone, password }) {
     <div class="mbody">
       <!-- Format selector -->
       <div class="print-fmt">
-        <button class="fmt-btn" id="fmt-a4" onclick="setPrintFmt('a4')" style="display:none">📄 A4 Standard</button>
-        <button class="fmt-btn" id="fmt-58" onclick="setPrintFmt('58')">🖨️ Thermique 58mm</button>
-        <button class="fmt-btn active" id="fmt-80" onclick="setPrintFmt('80')">🖨️ Thermique 80mm</button>
+        <button class="fmt-btn" id="fmt-a4" style="display:none" onclick="setPrintFmt('58')">📄 A4 Standard</button>
+        <button class="fmt-btn active" id="fmt-58" onclick="setPrintFmt('58')">🖨️ Thermique 58mm</button>
+        <button class="fmt-btn" id="fmt-80" onclick="setPrintFmt('80')">🖨️ Thermique 80mm</button>
       </div>
       <div id="inv-content"></div>
     </div>
@@ -3071,7 +3068,7 @@ function processCheckout() {
   currentSaleWA = cliWA;
   currentSaleName = cliNom;
   // Show invoice
-  setPrintFmt('a4');
+  setPrintFmt('58');
   showInvoice(sale, m, cfg);
   // Marketing toast
   showToast('🎉 ' + (cfg.message_accueil || 'Merci pour votre achat chez ' + m.nom_commerce + ' !'), 'success');
@@ -3843,7 +3840,7 @@ function buildEscPos(sale, m, cfg) {
   cmd.push(...sep('='));
   cmd.push(ESC, 0x61, 0x01);
   cmd.push(...centerBytes('Merci pour votre confiance !'));
-  cmd.push(...centerBytes('--- Burkina Faso---'));
+  cmd.push(...centerBytes('--- Digitale Solution ---'));
 
   // Message WhatsApp si disponible
   if (sale.client_wa) {
@@ -3915,7 +3912,7 @@ function viewSaleInvoice(sid) {
   const m = Auth.current(), s = DB.forM('sales', m.id).find(x => x.id === sid); if (!s) return;
   currentSaleWA = s.client_wa || '';
   currentSaleName = s.client_nom;
-  setPrintFmt('a4');
+  setPrintFmt('58');
   showInvoice(s, m, getConfig());
 }
 
@@ -5354,7 +5351,7 @@ async function testSupabaseConnection() {
   }
   try {
     // Ping InstantDB avec une lecture légère
-    await inst.queryOnce({merchants: {} });
+    await inst.queryOnce({ merchants: {} });
     showAdminSbFeedback('✅ InstantDB connecté ! APP_ID: ' + INSTANTDB_APP_ID, 'success');
     if (badge) { badge.textContent = '⚡ InstantDB OK'; badge.style.color = '#FFA000'; }
     if (conn) conn.value = '✅ InstantDB — ' + INSTANTDB_APP_ID;
@@ -6682,5 +6679,15 @@ document.addEventListener('DOMContentLoaded', async () => {  console.log('🚀 D
   if (typeof renderCart !== 'undefined') renderCart();
 });
 </script>
+  <!-- Enregistrer le Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(reg => console.log('✅ Service Worker enregistré:', reg))
+    .catch(err => console.error('❌ Erreur Service Worker:', err));
+}
+</script>
+
 </body>
 </html>
+
