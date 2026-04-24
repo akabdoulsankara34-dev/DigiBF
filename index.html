@@ -6159,6 +6159,16 @@ async function manualSync() {
   }
   showToast('🔄 Synchronisation en cours...', 'success');
   updateConnIndicator('syncing', 'Synchro...');
+  // Pousser toutes les données locales vers InstantDB
+  const m = Auth.current();
+  if (m && INST.ready()) {
+    try {
+      await INST.pushAll(m.id);
+      showToast('✅ Données synchronisées avec le cloud !', 'success');
+    } catch(e) {
+      console.warn('[Sync] pushAll error:', e);
+    }
+  }
   await triggerSync();
 }
 
