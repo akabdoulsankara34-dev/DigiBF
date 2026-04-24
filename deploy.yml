@@ -1,0 +1,24 @@
+# .github/workflows/deploy.yml
+name: Push InstantDB Schema
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Push schema to InstantDB
+        run: npx instant-cli@latest push schema --yes
+        env:
+          INSTANT_APP_ID: ${{ secrets.INSTANT_APP_ID }}
