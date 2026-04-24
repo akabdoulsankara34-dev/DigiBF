@@ -1796,9 +1796,9 @@ async function _fbLogin({ telephone, password }) {
     <div class="mbody">
       <!-- Format selector -->
       <div class="print-fmt">
-        <button class="fmt-btn active" id="fmt-a4" onclick="setPrintFmt('a4')">📄 A4 Standard</button>
+        <button class="fmt-btn" id="fmt-a4" onclick="setPrintFmt('a4')" style="display:none">📄 A4 Standard</button>
         <button class="fmt-btn" id="fmt-58" onclick="setPrintFmt('58')">🖨️ Thermique 58mm</button>
-        <button class="fmt-btn" id="fmt-80" onclick="setPrintFmt('80')">🖨️ Thermique 80mm</button>
+        <button class="fmt-btn active" id="fmt-80" onclick="setPrintFmt('80')">🖨️ Thermique 80mm</button>
       </div>
       <div id="inv-content"></div>
     </div>
@@ -3840,7 +3840,7 @@ function buildEscPos(sale, m, cfg) {
   cmd.push(...sep('='));
   cmd.push(ESC, 0x61, 0x01);
   cmd.push(...centerBytes('Merci pour votre confiance !'));
-  cmd.push(...centerBytes('--- Digitale Solution ---'));
+  cmd.push(...centerBytes('--- Burkina Faso---'));
 
   // Message WhatsApp si disponible
   if (sale.client_wa) {
