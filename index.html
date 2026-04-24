@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="fr" data-theme="dark">
 <head>
@@ -915,7 +916,7 @@ const INST = {
   async getMerchant(id) {
     if (!this.ready()) return null;
     try {
-      const result = await inst.query({ merchants: {} });
+      const result = await inst.queryOnce({merchants: {} });
       return result.data?.merchants?.[id] || null;
     } catch(e) { console.warn('[INST] getMerchant:', e); return null; }
   },
@@ -923,7 +924,7 @@ const INST = {
   async getMerchantByPhone(tel) {
     if (!this.ready()) return null;
     try {
-      const result = await inst.query({ merchants: {} });
+      const result = await inst.queryOnce({merchants: {} });
       const merchants = Object.values(result.data?.merchants || {});
       const found = merchants.find(m => m.telephone === tel);
       return found || null;
@@ -934,7 +935,7 @@ const INST = {
   
   async getAllMerchants() {
     try {
-      const result = await inst.query({ merchants: {} });
+      const result = await inst.queryOnce({merchants: {} });
       return Object.values(result.data?.merchants || {});
     } catch(e) { console.warn('[INST] getAllMerchants:', e); return []; }
   },
@@ -943,7 +944,7 @@ const INST = {
   async getConfig(merchantId) {
     if (!this.ready()) return null;
     try {
-      const result = await inst.query({ configs: {} });
+      const result = await inst.queryOnce({configs: {} });
       const configs = Object.values(result.data?.configs || {});
       return configs.find(c => c.merchant_id === merchantId) || null;
     } catch(e) { return null; }
@@ -958,7 +959,7 @@ const INST = {
   // --- PRODUCTS ---
   async getProducts(merchantId) {
     try {
-      const result = await inst.query({ products: {} });
+      const result = await inst.queryOnce({products: {} });
       const products = Object.values(result.data?.products || {});
       return products.filter(p => p.merchant_id === merchantId);
     } catch(e) { return []; }
@@ -970,7 +971,7 @@ const INST = {
   // --- CLIENTS ---
   async getClients(merchantId) {
     try {
-      const result = await inst.query({ clients: {} });
+      const result =await inst.queryOnce({ clients: {} });
       const clients = Object.values(result.data?.clients || {});
       return clients.filter(c => c.merchant_id === merchantId);
     } catch(e) { return []; }
@@ -981,7 +982,7 @@ const INST = {
   // --- SALES ---
   async getSales(merchantId) {
     try {
-      const result = await inst.query({ sales: {} });
+      const result = await inst.queryOnce({ sales: {} });
       const sales = Object.values(result.data?.sales || {});
       return sales.filter(s => s.merchant_id === merchantId);
     } catch(e) { return []; }
@@ -5353,7 +5354,7 @@ async function testSupabaseConnection() {
   }
   try {
     // Ping InstantDB avec une lecture légère
-    await inst.query({ merchants: {} });
+    await inst.queryOnce({merchants: {} });
     showAdminSbFeedback('✅ InstantDB connecté ! APP_ID: ' + INSTANTDB_APP_ID, 'success');
     if (badge) { badge.textContent = '⚡ InstantDB OK'; badge.style.color = '#FFA000'; }
     if (conn) conn.value = '✅ InstantDB — ' + INSTANTDB_APP_ID;
@@ -6683,4 +6684,3 @@ document.addEventListener('DOMContentLoaded', async () => {  console.log('🚀 D
 </script>
 </body>
 </html>
-
