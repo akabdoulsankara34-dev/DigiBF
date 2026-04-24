@@ -6679,6 +6679,14 @@ document.addEventListener('DOMContentLoaded', async () => {  console.log('🚀 D
   if (typeof renderCart !== 'undefined') renderCart();
 });
 </script>
+  <!-- Enregistrer le Service Worker -->
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+    .then(reg => console.log('✅ Service Worker enregistré:', reg))
+    .catch(err => console.error('❌ Erreur Service Worker:', err));
+}
+</script>
 
 </body>
 </html>
