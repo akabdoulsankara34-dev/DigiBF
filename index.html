@@ -413,7 +413,8 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 
 /* MODALS */
 .mo{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(4px);padding:20px}
-.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rlg);width:100%;max-width:480px;box-shadow:0 24px 80px rgba(0,0,0,.6);animation:mIn .2s ease}
+./* APRÈS */
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rlg);width:100%;max-width:480px;box-shadow:0 24px 80px rgba(0,0,0,.6);animation:mIn .2s ease;display:flex;flex-direction:column;max-height:90vh}
 .modal.wide{max-width:660px}
 @keyframes mIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
 .mhdr{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid var(--border)}
@@ -421,7 +422,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .mcls{color:var(--text-muted);font-size:1.1rem;transition:color var(--tr)}
 .mcls:hover{color:var(--text)}
 ./* APRÈS */
-.mbody{padding:24px;max-height:75vh;overflow-y:auto}
+.mbody{padding:24px;overflow-y:auto;flex:1}
 .mftr{display:flex;justify-content:flex-end;gap:10px;padding:16px 24px;border-top:1px solid var(--border)}
 
 /* Nav group labels */
