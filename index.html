@@ -1222,6 +1222,58 @@ async function _fbLogin({ telephone, password }) {
     throw new Error('Hors-ligne — ' + e.message);
   }
 }
+
+// --- Sync d'un item vers InstantDB ---
+async function _fbSync({ merchant_id, collection, item, items, delete: deleteId }) {
+  if (!INST.ready()) return { ok: false, error: 'InstantDB non disponible' };
+  try {
+    if (deleteId) {
+      await INST.remove(collection, deleteId);
+    } else if (items && Array.isArray(items)) {
+      for (const i of items) await INST.write(collection, i.id, i);
+    } else if (item) {
+      await INST.write(collection, item.id, item);
+    }
+    return { ok: true };
+  } catch(e) {
+    console.warn('[_fbSync] Erreur:', e);
+    return { ok: false, error: e.message };
+  }
+}
+
+// --- Chargement des données depuis InstantDB ---
+async function _fbLoadData(merchant_id) {
+  if (!INST.ready()) return { data: null, error: 'InstantDB non disponible' };
+  try {
+    await INST.pullAll(merchant_id);
+    return {
+      data: {
+        products: DB.forM('products', merchant_id),
+        clients:  DB.forM('clients',  merchant_id),
+        sales:    DB.forM('sales',    merchant_id),
+        configs:  DB.forM('configs',  merchant_id)
+      }
+    };
+  } catch(e) {
+    console.warn('[_fbLoadData] Erreur:', e);
+    return { data: null, error: e.message };
+  }
+}
+
+// --- Sync complète de tous les marchands ---
+async function _fbSyncAll(data) {
+  if (!INST.ready()) return { ok: false, error: 'InstantDB non disponible' };
+  try {
+    const merchants = data?.merchants || DB.get('merchants');
+    for (const m of merchants) {
+      await INST.pushAll(m.id);
+    }
+    return { ok: true };
+  } catch(e) {
+    console.warn('[_fbSyncAll] Erreur:', e);
+    return { ok: false, error: e.message };
+  }
+}
 </script>
 
 <body>
